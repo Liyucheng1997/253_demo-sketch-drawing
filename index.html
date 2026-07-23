@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>绘境学堂 · 素描与山水画学习</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">
+    <span class="brand-mark">绘</span>
+    <div class="brand-text">
+      <h1>绘境学堂</h1>
+      <p>素描 · 山水 · 从入门到进阶</p>
+    </div>
+  </div>
+  <nav class="mainnav" id="mainnav">
+    <button class="nav-btn active" data-view="home">首页</button>
+    <button class="nav-btn" data-view="sketch">素描教程</button>
+    <button class="nav-btn" data-view="shanshui">山水画教程</button>
+    <button class="nav-btn" data-view="board">练习画板</button>
+    <button class="nav-btn" data-view="analyze">上传解析</button>
+  </nav>
+</header>
+
+<main id="main">
+
+  <!-- ============ 首页 ============ -->
+  <section class="view active" id="view-home">
+    <div class="hero">
+      <div class="hero-text">
+        <h2>一笔一画，走进绘画的世界</h2>
+        <p>本学堂提供系统的<strong>素描</strong>与<strong>中国山水画</strong>课程，基于专业绘画方法编写：
+        从握笔排线、明暗五调子，到勾皴擦染点、三远构图。每一课都配有可以直接临摹的
+        <strong>内置示范</strong>，还可以<strong>上传任意一幅画</strong>，由系统解析出它的分步绘制过程。</p>
+        <div class="hero-actions">
+          <button class="btn primary" data-goto="sketch">开始学素描</button>
+          <button class="btn ink" data-goto="shanshui">开始学山水</button>
+          <button class="btn ghost" data-goto="analyze">上传一幅画试试</button>
+        </div>
+      </div>
+      <div class="hero-art">
+        <canvas id="hero-canvas" width="420" height="300"></canvas>
+      </div>
+    </div>
+
+    <div class="feature-grid">
+      <div class="feature-card" data-goto="sketch">
+        <div class="feature-icon">✏️</div>
+        <h3>素描课程</h3>
+        <p>握笔与排线 · 透视原理 · 几何体结构 · 明暗五调子 · 质感表现，六课循序渐进。</p>
+      </div>
+      <div class="feature-card" data-goto="shanshui">
+        <div class="feature-icon">🏔️</div>
+        <h3>山水画课程</h3>
+        <p>笔法五要 · 墨分五色 · 皴法详解 · 树石云水 · 三远构图，领略笔墨意境。</p>
+      </div>
+      <div class="feature-card" data-goto="board">
+        <div class="feature-icon">🖌️</div>
+        <h3>练习画板</h3>
+        <p>铅笔、炭笔、毛笔三种笔触模拟，内置分步临摹示范：球体、立方体、远山、竹枝。</p>
+      </div>
+      <div class="feature-card" data-goto="analyze">
+        <div class="feature-icon">🔍</div>
+        <h3>画作解析</h3>
+        <p>上传一张画，自动分解为「构图 → 线稿 → 铺调 → 深入 → 完成」的分步绘制教程。</p>
+      </div>
+    </div>
+
+    <div class="quote-band">
+      <p>「外师造化，中得心源。」—— 唐 · 张璪</p>
+    </div>
+  </section>
+
+  <!-- ============ 素描教程 ============ -->
+  <section class="view" id="view-sketch">
+    <div class="course-layout">
+      <aside class="lesson-list" id="sketch-lessons"></aside>
+      <article class="lesson-content" id="sketch-content"></article>
+    </div>
+  </section>
+
+  <!-- ============ 山水画教程 ============ -->
+  <section class="view" id="view-shanshui">
+    <div class="course-layout ink-theme">
+      <aside class="lesson-list" id="shanshui-lessons"></aside>
+      <article class="lesson-content" id="shanshui-content"></article>
+    </div>
+  </section>
+
+  <!-- ============ 练习画板 ============ -->
+  <section class="view" id="view-board">
+    <div class="board-layout">
+      <aside class="board-side">
+        <h3>🖌️ 工具</h3>
+        <div class="tool-group" id="tool-group">
+          <button class="tool-btn active" data-tool="pencil">✏️ 铅笔</button>
+          <button class="tool-btn" data-tool="charcoal">◼ 炭笔</button>
+          <button class="tool-btn" data-tool="brush">🖌 毛笔</button>
+          <button class="tool-btn" data-tool="eraser">◻ 橡皮</button>
+        </div>
+        <label class="slider-label">笔触粗细 <span id="size-val">6</span>px
+          <input type="range" id="brush-size" min="1" max="40" value="6">
+        </label>
+        <label class="slider-label">浓淡 <span id="opacity-val">60</span>%
+          <input type="range" id="brush-opacity" min="5" max="100" value="60">
+        </label>
+        <div class="board-actions">
+          <button class="btn small" id="undo-btn">↩ 撤销</button>
+          <button class="btn small" id="clear-btn">🗑 清空</button>
+          <button class="btn small" id="save-btn">⬇ 保存</button>
+        </div>
+        <h3 style="margin-top:1.2em">📖 临摹示范</h3>
+        <div class="demo-list" id="demo-list"></div>
+        <label class="slider-label" style="margin-top:.6em">底稿透明度 <span id="ghost-val">45</span>%
+          <input type="range" id="ghost-opacity" min="0" max="80" value="45">
+        </label>
+      </aside>
+      <div class="board-main">
+        <div class="demo-guide" id="demo-guide" hidden>
+          <div class="demo-guide-head">
+            <strong id="demo-title"></strong>
+            <div class="demo-step-nav">
+              <button class="btn small" id="demo-prev">◀ 上一步</button>
+              <span id="demo-step-label"></span>
+              <button class="btn small" id="demo-next">下一步 ▶</button>
+              <button class="btn small ghost" id="demo-exit">✕ 退出示范</button>
+            </div>
+          </div>
+          <p id="demo-tip"></p>
+        </div>
+        <div class="canvas-wrap" id="canvas-wrap">
+          <canvas id="ghost-canvas" width="900" height="620"></canvas>
+          <canvas id="draw-canvas" width="900" height="620"></canvas>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 上传解析 ============ -->
+  <section class="view" id="view-analyze">
+    <div class="analyze-intro">
+      <h2>🔍 画作分步解析</h2>
+      <p>上传一张画（素描、山水、照片均可），系统将通过图像分析，把它分解成一套
+      「从起稿到完成」的分步绘制教程，并给出每一步的专业技法要点。</p>
+    </div>
+    <div class="upload-zone" id="upload-zone">
+      <input type="file" id="file-input" accept="image/*" hidden>
+      <div class="upload-inner">
+        <div class="upload-icon">🖼️</div>
+        <p><strong>点击选择</strong> 或将图片拖拽到这里</p>
+        <p class="hint">支持 JPG / PNG / WebP，建议清晰度较高的画作图片</p>
+      </div>
+    </div>
+    <div class="analyze-result" id="analyze-result" hidden>
+      <div class="analyze-summary" id="analyze-summary"></div>
+      <div class="style-choice" id="style-choice">
+        <span>解析模式：</span>
+        <button class="btn small active" data-mode="sketch" id="mode-sketch">素描画法</button>
+        <button class="btn small" data-mode="ink" id="mode-ink">水墨画法</button>
+      </div>
+      <div class="steps-container" id="steps-container"></div>
+      <div class="analyze-footer">
+        <button class="btn primary" id="reanalyze-btn">重新上传</button>
+      </div>
+    </div>
+    <div class="analyze-loading" id="analyze-loading" hidden>
+      <div class="spinner"></div>
+      <p id="loading-text">正在解析画面结构…</p>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <p>绘境学堂 · 愿你在纸上见天地 · 本站为本地学习工具，所有图片仅在浏览器内处理，不会上传服务器</p>
+</footer>
+
+<script src="js/lessons-sketch.js"></script>
+<script src="js/lessons-shanshui.js"></script>
+<script src="js/illustrations.js"></script>
+<script src="js/board.js"></script>
+<script src="js/demos.js"></script>
+<script src="js/analyze.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
