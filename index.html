@@ -21,6 +21,7 @@
     <button class="nav-btn" data-view="shanshui">山水画教程</button>
     <button class="nav-btn" data-view="board">练习画板</button>
     <button class="nav-btn" data-view="analyze">上传解析</button>
+    <button class="nav-btn" data-view="ai">AI 素描</button>
   </nav>
 </header>
 
@@ -38,6 +39,7 @@
           <button class="btn primary" data-goto="sketch">开始学素描</button>
           <button class="btn ink" data-goto="shanshui">开始学山水</button>
           <button class="btn ghost" data-goto="analyze">上传一幅画试试</button>
+          <button class="btn ghost" data-goto="ai">一句话画素描</button>
         </div>
       </div>
       <div class="hero-art">
@@ -65,6 +67,11 @@
         <div class="feature-icon">🔍</div>
         <h3>画作解析</h3>
         <p>上传一张画，自动分解为「构图 → 线稿 → 铺调 → 深入 → 完成」的分步绘制教程。</p>
+      </div>
+      <div class="feature-card" data-goto="ai">
+        <div class="feature-icon">✨</div>
+        <h3>AI 素描</h3>
+        <p>说一句话，Claude Opus 5.5 设计构图与明暗，再用排线一笔笔画出来；不满意就接着说怎么改。</p>
       </div>
     </div>
 
@@ -171,10 +178,67 @@
     </div>
   </section>
 
+  <!-- ============ AI 素描 ============ -->
+  <section class="view" id="view-ai">
+    <div class="ai-layout">
+      <aside class="ai-side">
+        <details class="ai-key-box" id="ai-key-box" open>
+          <summary>🔑 Claude API 设置 <span id="ai-key-status"></span></summary>
+          <label class="ai-field">API Key
+            <input type="password" id="ai-key-input" placeholder="sk-ant-…" autocomplete="off" spellcheck="false">
+          </label>
+          <label class="ai-check"><input type="checkbox" id="ai-key-remember"> 记住在本机浏览器</label>
+          <label class="ai-field">精细程度
+            <select id="ai-effort">
+              <option value="low">快速（low）</option>
+              <option value="medium" selected>标准（medium）</option>
+              <option value="high">精细（high，较慢）</option>
+            </select>
+          </label>
+          <div class="ai-key-actions">
+            <button type="button" class="btn small primary" id="ai-key-save">保存</button>
+            <button type="button" class="btn small ghost" id="ai-key-clear">清除</button>
+          </div>
+          <p class="ai-note">模型：Claude Opus 5.5（claude-opus-5-5）。Key 只保存在你的浏览器里，请求由浏览器直接发往 api.anthropic.com，费用计入你的账户。</p>
+        </details>
+        <div class="ai-chat" id="ai-chat"></div>
+        <form class="ai-input" id="ai-form">
+          <textarea id="ai-prompt" rows="3" placeholder="用一句话描述想画的内容"></textarea>
+          <div class="ai-input-actions">
+            <button type="button" class="btn small ghost" id="ai-new">＋ 新画一幅</button>
+            <button type="submit" class="btn primary" id="ai-send">开始画</button>
+          </div>
+        </form>
+      </aside>
+      <div class="ai-main">
+        <div class="ai-toolbar">
+          <div class="ai-status" id="ai-status">还没有作品 · 在左侧输入一句话开始</div>
+          <div class="ai-tools">
+            <span class="ai-ver">
+              <button type="button" class="btn small ghost" id="ai-ver-prev" title="上一版">◀</button>
+              <span id="ai-ver-label">—</span>
+              <button type="button" class="btn small ghost" id="ai-ver-next" title="下一版">▶</button>
+            </span>
+            <label class="ai-speed">速度 <input type="range" id="ai-speed" min="1" max="5" value="3"></label>
+            <button type="button" class="btn small" id="ai-replay">⟲ 重播过程</button>
+            <button type="button" class="btn small" id="ai-skip">⏭ 跳过动画</button>
+            <button type="button" class="btn small" id="ai-download">⬇ 保存</button>
+            <button type="button" class="btn small primary" id="ai-to-board">🖌 去画板临摹</button>
+          </div>
+        </div>
+        <div class="canvas-wrap ai-canvas-wrap">
+          <canvas id="ai-canvas" width="1200" height="900"></canvas>
+          <div class="ai-stage" id="ai-stage" hidden></div>
+        </div>
+        <div class="ai-notes" id="ai-notes" hidden></div>
+      </div>
+    </div>
+  </section>
+
 </main>
 
 <footer class="footer">
-  <p>绘境学堂 · 愿你在纸上见天地 · 本站为本地学习工具，所有图片仅在浏览器内处理，不会上传服务器</p>
+  <p>绘境学堂 · 愿你在纸上见天地 · 上传解析的图片只在浏览器内处理；AI 素描会把你的描述发送到 Anthropic API</p>
 </footer>
 
 <script src="js/lessons-sketch.js"></script>
@@ -184,5 +248,6 @@
 <script src="js/demos.js"></script>
 <script src="js/analyze.js"></script>
 <script src="js/app.js"></script>
+<script src="js/ai-sketch.js"></script>
 </body>
 </html>

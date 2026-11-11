@@ -20,6 +20,12 @@
 - 每步生成参考图与专业技法要点，支持「素描画法 / 水墨画法」两套解析思路
 - 自动识别影调、对比、色彩倾向与光源方向
 
+### ✨ AI 素描（Claude Opus 5.5）
+- 在页面里填入自己的 Claude API Key（可选「记住在本机浏览器」），说一句话就能画
+- Claude 先设计构图、光源和五大调子，输出一份结构化的「素描绘制方案」；页面边接收边用铅笔线条、交叉排线、擦笔、橡皮提亮一笔笔画出来，并标出当前步骤（构图 → 线稿 → 铺调子 → 深入 → 高光）
+- 画完可以继续说怎么改，每次修改生成新版本，可前后切换、重播绘制过程、保存 PNG，或一键送到练习画板当底稿临摹
+- 浏览器直接调用 `api.anthropic.com`（官方 `@anthropic-ai/sdk`，从 jsDelivr 按需加载），费用计入你自己的账户；Key 不会发往其他地方
+
 ## 使用
 
 直接双击 `index.html`，或启动任意静态服务器：
@@ -32,7 +38,7 @@ python -m http.server 8244
 
 ## 技术
 
-原生 HTML / CSS / JavaScript，Canvas 2D 图像处理（灰度、盒式模糊、色调分离、Sobel 边缘检测），零依赖。
+原生 HTML / CSS / JavaScript，Canvas 2D 图像处理（灰度、盒式模糊、色调分离、Sobel 边缘检测），除 AI 素描按需加载 Anthropic SDK 外零依赖。
 
 ## 目录结构
 
@@ -46,4 +52,5 @@ js/board.js           练习画板与笔触模拟
 js/demos.js           分步临摹示范
 js/analyze.js         上传画作分步解析
 js/app.js             导航与课程渲染
+js/ai-sketch.js       AI 素描：调用 Claude、流式解析、素描笔触渲染
 ```
